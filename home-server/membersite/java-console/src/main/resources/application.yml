@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: signal-console
+  profiles:
+    active: h2
+  jackson:
+    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
+
+server:
+  # The Python storefront occupies 8080 (Cloudflare Tunnel target).
+  # Put the Java console on 8081 and reverse-proxy /admin + /api/admin/* to it.
+  port: 8081
+  servlet:
+    session:
+      cookie:
+        name: CSID
+        http-only: true
+        same-site: lax
+
+signal:
+  console:
+    # Where uploaded images/files are stored. Shared with the Python service so
+    # covers uploaded here are visible on the storefront's /uploads/* path.
+    upload-dir: ../uploads
+    # Admin session lifetime (seconds)
+    session-ttl: 28800
+    bootstrap-user: admin
+
+---
+# ---- Default: embedded H2, zero install, good for local evaluation ----
+spring:
+  config:
+    activate:
+      on-profile: h2
+  datasource:
+    url: jdbc:h2:file:./data/signal-console;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-h2.sql
+
+---
+# ---- Production: the SAME MySQL schema used by membersite/store.py ----
+# Start with:  mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+# The Java Repository deliberately uses identical table/column names, so the
+# Python storefront and the Java console can read/write one shared database.
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:shop}?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Shanghai
+    username: ${DB_USER:shop}
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never

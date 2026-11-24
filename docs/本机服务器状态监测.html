@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本机服务器 · 状态监测</title>
+<style>
+:root{
+  --green:#2d5016; --ivory:#f5f0e1; --gold:#c9a227; --wist:#8b6db5;
+  --leaf:#4a7c3f; --soft:#faf7ef; --ok:#1d9e75; --bad:#c0392b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Playfair Display',Georgia,'Songti SC','Noto Serif SC',serif;
+  background:var(--ivory);color:var(--green);line-height:1.7;
+  padding:40px 20px;min-height:100vh;
+  background-image:radial-gradient(circle at 10% 20%,rgba(139,109,181,.08) 0 2px,transparent 2px),radial-gradient(circle at 90% 70%,rgba(74,124,63,.10) 0 2px,transparent 2px);
+  background-size:200px 200px,240px 240px;
+}
+.wrap{max-width:860px;margin:0 auto}
+header{text-align:center;margin-bottom:38px}
+header h1{font-size:36px;font-weight:700;margin-bottom:6px}
+header p{color:var(--leaf);font-size:14px}
+.card{
+  background:var(--soft);border:1px solid rgba(201,162,39,.4);border-radius:32px;
+  padding:30px 32px;margin-bottom:22px;box-shadow:0 8px 30px rgba(45,80,22,.12);
+}
+.card h2{font-size:20px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.dot{width:12px;height:12px;border-radius:50%;flex:none}
+.dot.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(29,158,117,.15)}
+.dot.bad{background:var(--bad);box-shadow:0 0 0 4px rgba(192,57,43,.15)}
+.dot.wait{background:var(--gold);animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.row{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid rgba(201,162,39,.22);font-size:15px}
+.row:last-child{border-bottom:none}
+.row .k{color:var(--leaf)}
+.row .v{font-weight:700;text-align:right;word-break:break-all}
+.pill{display:inline-block;padding:3px 14px;border-radius:999px;font-size:13px;letter-spacing:.06em}
+.pill.ok{background:rgba(29,158,117,.14);color:var(--ok)}
+.pill.bad{background:rgba(192,57,43,.12);color:var(--bad)}
+.pill.wait{background:rgba(201,162,39,.18);color:#8a6d0b}
+.bar{height:6px;border-radius:999px;background:rgba(45,80,22,.12);overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--leaf),var(--gold));transition:width 600ms ease}
+button{
+  font-family:inherit;font-size:14px;letter-spacing:.08em;cursor:pointer;
+  background:var(--green);color:var(--ivory);border:1px solid var(--gold);
+  border-radius:999px;padding:11px 24px;transition:all 600ms ease;
+}
+button:hover{background:var(--gold);color:var(--green)}
+.actions{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+.note{font-size:13px;color:#8b846c;text-align:center;margin-top:24px;line-height:1.9}
+a{color:var(--leaf)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>✿ 本机服务器状态</h1>
+    <p>www.honoweb.com · Art Nouveau 艺术音乐站</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="dot wait" id="dot-local"></span> 本机服务</h2>
+    <div class="row"><span class="k">网站服务 (127.0.0.1:8080)</span><span class="v"><span class="pill wait" id="s-local">检测中…</span></span></div>
+    <div class="row"><span class="k">接口响应</span><span class="v" id="s-api">—</span></div>
+    <div class="row"><span class="k">注册用户数</span><span class="v" id="s-users">—</span></div>
+    <div class="row"><span class="k">累计访问</span><span class="v" id="s-visits">—</span></div>
+    <div class="row"><span class="k">服务时间</span><span class="v" id="s-time">—</span></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="dot wait" id="dot-public"></span> 公网访问</h2>
+    <div class="row"><span class="k">https://www.honoweb.com</span><span class="v"><span class="pill wait" id="s-public">检测中…</span></span></div>
+    <div class="row"><span class="k">响应时间</span><span class="v" id="s-latency">—</span></div>
+    <div class="row"><span class="k">页面标题</span><span class="v" id="s-title">—</span></div>
+    <div class="bar"><i id="bar"></i></div>
+  </section>
+
+  <section class="card">
+    <h2><span class="dot ok"></span> 开机自启配置</h2>
+    <div class="row"><span class="k">计划任务</span><span class="v">HomeServer-BootStart</span></div>
+    <div class="row"><span class="k">触发方式</span><span class="v">开机触发 · SYSTEM · 最高权限</span></div>
+    <div class="row"><span class="k">配置状态</span><span class="v"><span class="pill ok">已注册 ✓</span></span></div>
+    <div class="row"><span class="k">启动脚本</span><span class="v">launch.ps1</span></div>
+  </section>
+
+  <div class="actions">
+    <button onclick="checkAll()">立即刷新</button>
+    <a href="https://www.honoweb.com/" target="_blank"><button>打开网站</button></a>
+  </div>
+  <p class="note">
+    自动每 30 秒检测一次。<br>
+    本页通过浏览器直接访问本机接口；若本机服务未启动，公网检测仍会尝试。<br>
+    若开机后公网长时间不通，请双击运行 home-server 目录下的「验证开机任务.bat」。
+  </p>
+</div>
+
+<script>
+const LOCAL='http://127.0.0.1:8080';
+const PUBLIC='https://www.honoweb.com';
+function setPill(id,ok,text,wait){
+  const el=document.getElementById(id);
+  el.className='pill '+(wait?'wait':(ok?'ok':'bad'));
+  el.textContent=text;
+}
+function setDot(id,ok,wait){
+  const el=document.getElementById(id);
+  el.className='dot '+(wait?'wait':(ok?'ok':'bad'));
+}
+async function checkLocal(){
+  try{
+    const r=await fetch(LOCAL+'/api/status',{cache:'no-store'});
+    if(!r.ok)throw 0;
+    const d=await r.json();
+    setPill('s-local',true,'运行中','');
+    setDot('dot-local',true,'');
+    document.getElementById('s-api').textContent='HTTP 200 · 正常';
+    document.getElementById('s-users').textContent=d.users+' 人';
+    document.getElementById('s-visits').textContent=d.visits+' 次';
+    document.getElementById('s-time').textContent=d.time||'—';
+  }catch(e){
+    setPill('s-local',false,'未运行','');
+    setDot('dot-local',false,'');
+    document.getElementById('s-api').textContent='连接失败';
+    document.getElementById('s-users').textContent='—';
+    document.getElementById('s-visits').textContent='—';
+    document.getElementById('s-time').textContent='—';
+  }
+}
+async function checkPublic(){
+  setPill('s-public',true,'检测中…',true);
+  setDot('dot-public',true,true);
+  const t0=performance.now();
+  try{
+    const r=await fetch(PUBLIC+'/api/status',{cache:'no-store'});
+    if(!r.ok)throw 0;
+    const ms=Math.round(performance.now()-t0);
+    setPill('s-public',true,'可访问','');
+    setDot('dot-public',true,'');
+    document.getElementById('s-latency').textContent=ms+' ms';
+    document.getElementById('s-title').textContent='藤蔓与旋律 · Art Nouveau 艺术音乐志';
+    document.getElementById('bar').style.width=Math.max(6,Math.min(100,300/ms*100))+'%';
+  }catch(e){
+    setPill('s-public',false,'不可访问','');
+    setDot('dot-public',false,'');
+    document.getElementById('s-latency').textContent='—';
+    document.getElementById('s-title').textContent='—';
+    document.getElementById('bar').style.width='0';
+  }
+}
+function checkAll(){checkLocal();checkPublic();}
+checkAll();
+setInterval(checkAll,30000);
+</script>
+</body>
+</html>

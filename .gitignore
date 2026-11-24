@@ -1,0 +1,48 @@
+# ==========================================================
+# 全量接手包 · 防误提交规则（按公开仓库标准）
+# 任何密钥 / 凭据 / 用户数据 / 运行日志都不得入库
+# 详见 docs/12-敏感文件清单与获取方式.md
+# ==========================================================
+
+# --- Cloudflare Tunnel Token（等同服务器控制权）---
+token.txt
+tunnel-token.txt
+
+# --- 凭据 / 密钥 ---
+*.key
+*.pem
+*_ed25519
+id_ed25519
+.env
+admin-credentials.txt
+admins.json
+
+# --- 运行时数据（本机自动生成，不迁移）---
+**/data/
+**/uploads/
+**/logs/
+**/_backup/
+**/__pycache__/
+**/_shots/
+
+# --- 运行产物 ---
+*.pyc
+*.pyo
+*.db
+*.sqlite
+*.sqlite3
+*.jsonl
+*.log
+*.tmp
+
+# --- 重复的大二进制 ---
+cloudflared-alt.exe
+
+# --- 编辑器 / 系统 ---
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# --- 临时打包脚本 ---
+_tmp_handoff/

@@ -1,0 +1,43 @@
+# 用户数据与隐私（严禁提交）
+data/
+*.jsonl
+users.json
+*.db
+*.sqlite
+*.sqlite3
+uploads/
+
+# 密钥与环境变量（严禁提交）
+.env
+*.key
+token.txt
+credentials*
+admin-credentials*
+
+# 运行时日志
+*.log
+logs/
+
+# Java 构建产物与本地库
+java-console/target/
+java-console/data/
+
+# Node / 浏览器临时目录
+_shots/
+_edgeprofile*/
+node_modules/
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 测试脚本临时产物
+_smoke*/
+_http_smoke.py
+
+# 编辑器与系统文件
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

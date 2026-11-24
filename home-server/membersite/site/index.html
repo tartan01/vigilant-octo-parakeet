@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SIGNAL — 好信息，值得被认真交付</title>
+<meta name="description" content="SIGNAL 数字信息商店：金融科技简报、信息源清单与 AI 研究资料。付款即自动发货，支持文档、邮件、私密外链、授权码与站内查阅。" />
+<link rel="stylesheet" href="/styles.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230071e3'/%3E%3Cpath d='M9 20l4-8 3 5 3-7 4 10' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<script defer src="/app.js"></script>
+</head>
+<body>
+
+<!-- ================= NAV (Vibrancy) ================= -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="SIGNAL 首页">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#0071e3"/><path d="M9 20l4-8 3 5 3-7 4 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="brand-text">SIGNAL</span>
+  </a>
+  <nav class="nav-links" aria-label="主导航">
+    <a href="#shop">商品</a>
+    <a href="#delivery">发货方式</a>
+    <a href="#brief">简报</a>
+    <a href="#scale">关于</a>
+    <a href="/admin">管理后台</a>
+  </nav>
+  <div class="nav-actions">
+    <button class="icon-btn" id="nav-cart" aria-label="打开购物袋">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="cart-badge" id="cart-count" hidden>0</span>
+    </button>
+    <button class="nav-cta" id="btn-login-open">登录</button>
+    <div class="user-menu" id="nav-user" hidden>
+      <button class="user-trigger" id="user-trigger" aria-haspopup="true" aria-expanded="false">
+        <span class="avatar" id="user-avatar">S</span><span class="user-mail" id="user-email"></span>
+        <svg viewBox="0 0 12 8" width="10" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <div class="user-dropdown" id="user-dropdown" hidden>
+        <button id="btn-my-orders">我的订单与交付</button>
+        <button id="btn-logout">退出登录</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO — one thing per screen ================= -->
+  <section class="hero">
+    <p class="eyebrow">虚拟信息 · 数字文件 · 自动交付</p>
+    <h1>好信息，<br />值得被认真交付。</h1>
+    <p class="hero-sub">金融科技简报、信息源清单与 AI 研究资料。<br />付款即发货，五种交付方式，随你选。</p>
+    <div class="hero-cta">
+      <a class="pill" href="#shop">浏览商品</a>
+      <a class="link-arrow" href="#delivery">了解发货方式 <span aria-hidden="true">›</span></a>
+    </div>
+    <div class="hero-stage" aria-hidden="true">
+      <div class="doc-render">
+        <div class="doc-head"><span class="doc-dot"></span><span>SIGNAL / BRIEF / 001</span></div>
+        <div class="doc-line w70"></div><div class="doc-line w90"></div>
+        <div class="doc-line w55"></div><div class="doc-line w80"></div>
+        <div class="doc-rule"></div>
+        <div class="doc-line w40"></div><div class="doc-line w65"></div>
+        <div class="doc-badge">PDF · 2 页</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BLACK STAGE — fintech brief ================= -->
+  <section class="stage" id="brief">
+    <div class="stage-inner">
+      <p class="stage-label">SAMPLE · 金融科技信息简报 第 01 期</p>
+      <h2>把噪声折叠起来，<br />只留下能改变判断的那几条。</h2>
+      <div class="brief-grid">
+        <div class="brief-col">
+          <h3>信息源分享</h3>
+          <ul id="brief-sources"></ul>
+        </div>
+        <div class="brief-col">
+          <h3>AI 信息分享</h3>
+          <ul id="brief-ai"></ul>
+        </div>
+      </div>
+      <p class="stage-foot" id="brief-foot"></p>
+      <button class="stage-link" id="btn-brief-read">阅读完整简报 <span aria-hidden="true">›</span></button>
+    </div>
+  </section>
+
+  <!-- ================= DELIVERY — five ways ================= -->
+  <section class="section" id="delivery">
+    <div class="section-head">
+      <p class="kicker">FULFILMENT</p>
+      <h2>五种方式，<br />把信息交到你手里。</h2>
+      <p class="section-sub">虚拟商品不该让人等。付款的那一刻，交付就已经开始。</p>
+    </div>
+    <div class="delivery-grid" id="delivery-grid"></div>
+  </section>
+
+  <!-- ================= SHOP ================= -->
+  <section class="section shop" id="shop">
+    <div class="section-head row">
+      <div>
+        <p class="kicker">THE COLLECTION</p>
+        <h2>选一份信息。</h2>
+        <p class="section-sub">每一份都可直接用于工作，也可按需选择交付方式。</p>
+      </div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6" stroke-linecap="round"/></svg>
+        <input id="search-input" type="search" placeholder="搜索" aria-label="搜索商品" />
+      </div>
+    </div>
+    <div class="chips" id="category-bar" role="group" aria-label="商品分类">
+      <button class="chip active" data-cat="all">全部</button>
+      <button class="chip" data-cat="研究简报">研究简报</button>
+      <button class="chip" data-cat="信息源">信息源</button>
+      <button class="chip" data-cat="AI 资料">AI 资料</button>
+      <button class="chip" data-cat="文档模板">文档模板</button>
+      <button class="chip" data-cat="数据集">数据集</button>
+      <button class="chip" data-cat="订阅">订阅</button>
+    </div>
+
+    <div id="products-loading" class="state-box"><span class="spinner"></span> 正在载入…</div>
+    <div id="products-error" class="state-box" hidden><p>加载失败，稍等一下再试。</p><button class="pill small" id="btn-retry">重新加载</button></div>
+    <div id="products-empty" class="state-box" hidden><p>没有找到相关信息，换个词试试。</p></div>
+    <div class="grid" id="product-grid" aria-live="polite"></div>
+  </section>
+
+  <!-- ================= SCALE ================= -->
+  <section class="section scale" id="scale">
+    <div class="section-head">
+      <p class="kicker">BUILT TO SCALE</p>
+      <h2>从小做起，<br />也为规模而生。</h2>
+      <p class="section-sub">生意要做规模，也要保留个性。底层是同一套可替换的系统。</p>
+    </div>
+    <div class="scale-grid">
+      <article class="scale-card"><span class="scale-num">01</span><h3>自动发货</h3><p>订单生成即创建交付凭证，无需人工守着。文档、邮件、外链、授权码、在线查阅，各自就位。</p></article>
+      <article class="scale-card"><span class="scale-num">02</span><h3>独立后台</h3><p>管理员登录、上传图片、管理商品与订单。典型 Web 分层：Controller / Service / Repository。</p></article>
+      <article class="scale-card"><span class="scale-num">03</span><h3>可换数据库</h3><p>JSON、SQLite、MySQL、PostgreSQL 一套接口随意切换。流量来了，底座不用重写。</p></article>
+    </div>
+  </section>
+
+  <!-- ================= JOIN ================= -->
+  <section class="join">
+    <h2>先注册，再挑一份。</h2>
+    <p>邮箱验证码一键入会，交付记录永久留在你的账户里。</p>
+    <button class="pill" id="btn-join">免费注册</button>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand"><span>SIGNAL</span><p>好信息，值得被认真交付。</p></div>
+    <div class="footer-col"><h4>选购</h4><a href="#shop">全部商品</a><a href="#brief">简报样刊</a><a href="#delivery">发货方式</a></div>
+    <div class="footer-col"><h4>账户</h4><button class="linklike" id="btn-foot-login">注册 / 登录</button><button class="linklike" id="btn-foot-orders">我的订单</button></div>
+    <div class="footer-col"><h4>管理</h4><a href="/admin">管理后台</a><a href="#scale">系统说明</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 SIGNAL · 数字信息商店</span><span>信息仅供参考，不构成投资建议。</span></div>
+</footer>
+
+<!-- ================= CART DRAWER ================= -->
+<div class="overlay" id="cart-overlay" hidden></div>
+<aside class="drawer" id="cart-drawer" hidden aria-label="购物袋" role="dialog" aria-modal="true">
+  <div class="drawer-head"><h3>购物袋</h3><button class="close-btn" id="cart-close" aria-label="关闭">×</button></div>
+  <div class="drawer-body" id="cart-items"></div>
+  <div class="drawer-foot">
+    <p class="foot-label">选择发货方式</p>
+    <div class="delivery-pick" id="delivery-pick"></div>
+    <label class="target-field"><span>交付目标（邮箱 / 备注）</span>
+      <input id="delivery-target" type="text" placeholder="留空默认使用登录邮箱" /></label>
+    <div class="total-row"><span>合计</span><b id="cart-total">¥0</b></div>
+    <p class="hint" id="cart-hint">登录后可结算下单</p>
+    <button class="pill full" id="btn-checkout">去结算</button>
+  </div>
+</aside>
+
+<!-- ================= PRODUCT MODAL ================= -->
+<div class="overlay" id="product-overlay" hidden></div>
+<div class="modal" id="product-modal" hidden role="dialog" aria-modal="true" aria-labelledby="product-title">
+  <button class="close-btn modal-close" id="product-close" aria-label="关闭">×</button>
+  <div id="product-detail"></div>
+</div>
+
+<!-- ================= AUTH MODAL ================= -->
+<div class="overlay" id="auth-overlay" hidden></div>
+<div class="modal" id="auth-modal" hidden role="dialog" aria-modal="true" aria-labelledby="auth-title">
+  <button class="close-btn modal-close" id="btn-auth-close" aria-label="关闭">×</button>
+  <h3 id="auth-title">登录 SIGNAL</h3>
+  <p class="modal-sub">用邮箱验证码注册或登录，无需记密码。</p>
+  <div id="auth-step1">
+    <label class="field"><span>邮箱地址</span><input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com" /></label>
+    <button class="pill full" id="btn-send-code">获取验证码</button>
+  </div>
+  <div id="auth-step2" hidden>
+    <label class="field"><span>验证码</span><input id="auth-code" inputmode="numeric" maxlength="6" placeholder="6 位数字" /></label>
+    <p class="demo-code" id="demo-code" hidden></p>
+    <button class="pill full" id="btn-verify">验证并继续</button>
+    <button class="link-arrow tiny" id="btn-back">换个邮箱</button>
+  </div>
+  <div id="auth-step3" hidden>
+    <div class="success-mark" aria-hidden="true">✓</div>
+    <p class="success-text" id="auth-success-text">已登录</p>
+    <button class="pill full" id="btn-auth-done">继续浏览</button>
+  </div>
+  <p class="auth-msg" id="auth-msg" role="status" aria-live="polite"></p>
+</div>
+
+<!-- ================= ORDERS MODAL ================= -->
+<div class="overlay" id="orders-overlay" hidden></div>
+<div class="modal wide" id="orders-modal" hidden role="dialog" aria-modal="true" aria-labelledby="orders-title">
+  <button class="close-btn modal-close" id="orders-close" aria-label="关闭">×</button>
+  <h3 id="orders-title">我的订单与交付</h3>
+  <p class="modal-sub">每一份的交付凭证都在这里，随时回来查阅。</p>
+  <div id="orders-list" class="list-scroll"></div>
+</div>
+
+<!-- ================= BRIEF MODAL ================= -->
+<div class="overlay" id="brief-overlay" hidden></div>
+<div class="modal wide" id="brief-modal" hidden role="dialog" aria-modal="true" aria-labelledby="brief-modal-title">
+  <button class="close-btn modal-close" id="brief-close" aria-label="关闭">×</button>
+  <h3 id="brief-modal-title">金融科技信息简报 · 第 01 期</h3>
+  <p class="modal-sub">SIGNAL 样刊 · 极简版</p>
+  <div class="brief-article" id="brief-article"></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

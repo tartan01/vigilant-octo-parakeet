@@ -1,0 +1,1 @@
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHBFOJn+L5RekItq1lZ1G0Fdg+p3XNksdgkY3BTHdEd4 mainstationkey
